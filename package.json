@@ -1,19 +1,25 @@
 {
   "name": "tiny-kv",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "distributed key-value store",
+  "main": "dist/main.js",
   "scripts": {
+    "dev": "tsx watch src/main.ts",
     "build": "tsc",
+    "start": "node dist/main.js",
     "lint": "eslint . --ext .ts --fix",
     "format": "prettier --write .",
-    "test": "jest --runInBand"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --runInBand",
+    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/maiano/tiny-kv.git"
   },
-  "keywords": [],
+  "keywords": [
+    "kv-store",
+    "distributed"
+  ],
   "author": "",
   "license": "MIT",
   "type": "module",
@@ -32,6 +38,7 @@
     "jest": "^30.2.0",
     "prettier": "^3.7.4",
     "ts-jest": "^29.4.6",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
