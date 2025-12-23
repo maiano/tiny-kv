@@ -16,6 +16,6 @@ export class InMemoryStorage implements Storage {
     return this.store.has(key);
   }
   async size(): Promise<number> {
-    return this.size();
+    return this.store.size;
   }
 }
