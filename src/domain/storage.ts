@@ -1,5 +1,7 @@
-export interface Storage<V = unknown> {
-  put(key: string, value: V): Promise<void>;
-  get(key: string): Promise<V | null>;
-  delete(key: string): Promise<void>;
+export interface Storage {
+  put(key: string, value: string): Promise<void>;
+  get(key: string): Promise<string | null>;
+  delete(key: string): Promise<boolean>;
+  exists(key: string): Promise<boolean>;
+  size(): Promise<number>;
 }
