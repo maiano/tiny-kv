@@ -1,6 +1,7 @@
 import Fastify, { FastifyInstance } from 'fastify';
 import { registerRoutes } from './routes.js';
 import { KVHandlers } from './handlers.js';
+import { setupErrorHandler } from './error-handler.js';
 
 export class FastifyServer {
   private fastify: FastifyInstance;
@@ -21,6 +22,8 @@ export class FastifyServer {
       },
       bodyLimit: 1048576,
     });
+
+    setupErrorHandler(this.fastify);
 
     this.setupRoutes();
   }
