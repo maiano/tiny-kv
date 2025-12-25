@@ -2,7 +2,7 @@
  * Storage contract tests.
  */
 
-import { KeyValue } from './entities/key-value.js';
+import { KeyValue } from '../../domain/entities/key-value.js';
 import type { Storage } from './storage.js';
 
 export function storageContract(factory: () => Storage) {

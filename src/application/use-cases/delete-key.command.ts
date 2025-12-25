@@ -1,4 +1,4 @@
-import { Storage } from '../domain/storage.js';
+import { Storage } from '../ports/storage.js';
 
 export class DeleteKeyCommand {
   constructor(private readonly storage: Storage) {}

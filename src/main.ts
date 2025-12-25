@@ -1,7 +1,7 @@
 import { InMemoryStorage } from './infrastructure/storage/inMemoryStorage.js';
-import { GetKeyQuery } from './application/get-key.query.js';
-import { PutKeyCommand } from './application/put-key.command.js';
-import { DeleteKeyCommand } from './application/delete-key.command.js';
+import { GetKeyQuery } from './application/use-cases/get-key.query.js';
+import { PutKeyCommand } from './application/use-cases/put-key.command.js';
+import { DeleteKeyCommand } from './application/use-cases/delete-key.command.js';
 import { KVHandlers } from './transport/http/handlers.js';
 import { FastifyServer } from './transport/http/server.js';
 
