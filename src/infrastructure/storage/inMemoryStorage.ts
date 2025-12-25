@@ -1,12 +1,13 @@
+import { KeyValue } from '../../domain/entities/key-value.js';
 import { Storage } from '../../domain/storage.js';
 
 export class InMemoryStorage implements Storage {
-  private store = new Map<string, string>();
+  private store = new Map<string, KeyValue>();
 
-  async put(key: string, value: string): Promise<void> {
-    this.store.set(key, value);
+  async put(kv: KeyValue): Promise<void> {
+    this.store.set(kv.getKey(), kv);
   }
-  async get(key: string): Promise<string | null> {
+  async get(key: string): Promise<KeyValue | null> {
     return this.store.get(key) ?? null;
   }
   async delete(key: string): Promise<boolean> {

@@ -9,7 +9,8 @@ type KeyParams = {
 };
 
 type PutKeyBody = {
-  value: string;
+  value: unknown;
+  ttl?: number;
 };
 
 export class KVHandlers {
@@ -42,9 +43,9 @@ export class KVHandlers {
     reply: FastifyReply,
   ): Promise<void> => {
     const { key } = req.params;
-    const { value } = req.body;
+    const { value, ttl } = req.body;
 
-    await this.putKeyCommand.execute(key, value);
+    await this.putKeyCommand.execute(key, value, ttl);
 
     reply.status(201).send({
       status: 'created',

@@ -1,6 +1,8 @@
+import { KeyValue } from './entities/key-value.js';
+
 export interface Storage {
-  put(key: string, value: string): Promise<void>;
-  get(key: string): Promise<string | null>;
+  put(kv: KeyValue): Promise<void>;
+  get(key: string): Promise<KeyValue | null>;
   delete(key: string): Promise<boolean>;
   exists(key: string): Promise<boolean>;
   size(): Promise<number>;
