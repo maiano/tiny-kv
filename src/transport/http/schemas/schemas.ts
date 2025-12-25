@@ -97,20 +97,8 @@ export const deleteKeySchema = {
     },
   },
   response: {
-    200: {
-      type: 'object',
-      properties: {
-        status: { type: 'string' },
-        key: { type: 'string' },
-      },
-    },
-    404: {
-      type: 'object',
-      properties: {
-        status: { type: 'string' },
-        code: { type: 'string' },
-        message: { type: 'string' },
-      },
+    204: {
+      description: 'Key deleted',
     },
   },
 } as const;

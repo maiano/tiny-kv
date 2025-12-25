@@ -59,15 +59,8 @@ export class KVHandlers {
     reply: FastifyReply,
   ): Promise<void> => {
     const { key } = req.params;
-    const deleted = await this.deleteKeyCommand.execute(key);
+    await this.deleteKeyCommand.execute(key);
 
-    if (!deleted) {
-      throw new KeyNotFoundError(key);
-    }
-
-    reply.status(200).send({
-      status: 'deleted',
-      key,
-    });
+    reply.status(204).send();
   };
 }
