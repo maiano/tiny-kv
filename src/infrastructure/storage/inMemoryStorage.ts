@@ -1,5 +1,5 @@
-import { KeyValue } from '../../domain/entities/key-value.js';
 import { Storage } from '../../application/ports/storage.js';
+import { KeyValue } from '../../domain/entities/key-value.js';
 
 export class InMemoryStorage implements Storage {
   private store = new Map<string, KeyValue>();

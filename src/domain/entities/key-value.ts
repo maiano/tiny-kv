@@ -2,16 +2,15 @@ export class KeyValue {
   constructor(
     private readonly key: string,
     private readonly value: unknown,
-    private readonly expiresAt?: Date,
+    private readonly expiresAt?: number,
   ) {}
 
   getValue(): unknown {
     return this.value;
   }
 
-  isExpired(now: Date = new Date()): boolean {
-    if (!this.expiresAt) return false;
-    return now > this.expiresAt;
+  isExpired(now: number): boolean {
+    return this.expiresAt !== undefined && now > this.expiresAt;
   }
 
   getKey(): string {
@@ -22,9 +21,9 @@ export class KeyValue {
     key: string,
     value: unknown,
     ttl?: number,
-    now: Date = new Date(),
+    now: number = Date.now(),
   ): KeyValue {
-    const expiresAt = ttl ? new Date(now.getTime() + ttl * 1000) : undefined;
+    const expiresAt = ttl !== undefined ? now + ttl * 1000 : undefined;
     return new KeyValue(key, value, expiresAt);
   }
 }

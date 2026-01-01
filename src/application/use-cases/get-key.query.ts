@@ -3,7 +3,7 @@ import { Storage } from '../ports/storage.js';
 export class GetKeyQuery {
   constructor(private readonly storage: Storage) {}
 
-  async execute(key: string, now = new Date()): Promise<unknown | null> {
+  async execute(key: string, now = Date.now()): Promise<unknown | null> {
     const kv = await this.storage.get(key);
 
     if (!kv) return null;
