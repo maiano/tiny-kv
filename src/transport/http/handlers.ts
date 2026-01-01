@@ -1,8 +1,9 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
+import { InvalidKeyError } from '../../application/errors/errors.js';
 import { DeleteKeyCommand } from '../../application/use-cases/delete-key.command.js';
 import { GetKeyQuery } from '../../application/use-cases/get-key.query.js';
 import { PutKeyCommand } from '../../application/use-cases/put-key.command.js';
-import { KeyNotFoundError } from './error-handler.js';
+import { KeyNotFoundError, ValidationError } from './error-handler.js';
 
 type KeyParams = {
   key: string;
@@ -12,6 +13,9 @@ type PutKeyBody = {
   value: unknown;
   ttl?: number;
 };
+
+const encoder = new TextEncoder();
+const decoder = new TextDecoder();
 
 export class KVHandlers {
   constructor(
@@ -31,10 +35,12 @@ export class KVHandlers {
       throw new KeyNotFoundError(key);
     }
 
+    const decodedValue = decoder.decode(value);
+
     reply.status(200).send({
       status: 'ok',
       key,
-      value,
+      value: JSON.parse(decodedValue),
     });
   };
 
@@ -45,7 +51,28 @@ export class KVHandlers {
     const { key } = req.params;
     const { value, ttl } = req.body;
 
-    await this.putKeyCommand.execute(key, value, ttl);
+    let json: string;
+
+    try {
+      json = JSON.stringify(value);
+    } catch {
+      throw new ValidationError('Value must be JSON-serializable');
+    }
+
+    if (json === undefined) {
+      throw new ValidationError('Value must be JSON-serializable');
+    }
+
+    const valueBytes = encoder.encode(json);
+
+    try {
+      await this.putKeyCommand.execute(key, valueBytes, ttl);
+    } catch (error) {
+      if (error instanceof InvalidKeyError) {
+        throw new ValidationError(error.message);
+      }
+      throw error;
+    }
 
     reply.status(201).send({
       status: 'created',

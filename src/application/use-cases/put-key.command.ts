@@ -1,21 +1,21 @@
 import { KeyValue } from '../../domain/entities/key-value.js';
-import { ValidationError } from '../../transport/http/error-handler.js';
+import { InvalidKeyError } from '../errors/errors.js';
 import { Storage } from '../ports/storage.js';
 
 export class PutKeyCommand {
   constructor(private readonly storage: Storage) {}
 
-  async execute(key: string, value: unknown, ttl?: number): Promise<void> {
+  async execute(key: string, value: Uint8Array, ttl?: number): Promise<void> {
     if (!key || key.trim().length === 0) {
-      throw new ValidationError('Key cannot be empty');
+      throw new InvalidKeyError('Key cannot be empty');
     }
 
     if (key.length > 256) {
-      throw new ValidationError('Key length exceeds maximum of 256 characters');
+      throw new InvalidKeyError('Key length exceeds maximum of 256 characters');
     }
 
     if (value === undefined || value === null) {
-      throw new ValidationError('Value is required');
+      throw new InvalidKeyError('Value is required');
     }
 
     const kv = KeyValue.create(key, value, ttl);

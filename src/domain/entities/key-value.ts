@@ -1,11 +1,11 @@
 export class KeyValue {
   constructor(
     private readonly key: string,
-    private readonly value: unknown,
+    private readonly value: Uint8Array,
     private readonly expiresAt?: number,
   ) {}
 
-  getValue(): unknown {
+  getValue(): Uint8Array {
     return this.value;
   }
 
@@ -19,7 +19,7 @@ export class KeyValue {
 
   static create(
     key: string,
-    value: unknown,
+    value: Uint8Array,
     ttl?: number,
     now: number = Date.now(),
   ): KeyValue {
