@@ -61,6 +61,7 @@ export const getKeySchema = {
         type: 'string',
         minLength: 1,
         maxLength: 256,
+        pattern: '^[a-zA-Z0-9:_-]+$',
       },
     },
   },

@@ -1,5 +1,5 @@
 import { KeyValue } from '../../domain/entities/key-value.js';
-import { InvalidKeyError } from '../errors/errors.js';
+import { InvalidKeyError, InvalidTTL } from '../errors/errors.js';
 import { Storage } from '../ports/storage.js';
 
 export class PutKeyCommand {
@@ -16,6 +16,10 @@ export class PutKeyCommand {
 
     if (value === undefined || value === null) {
       throw new InvalidKeyError('Value is required');
+    }
+
+    if (ttl !== undefined && ttl <= 0) {
+      throw new InvalidTTL('TTL must be positive');
     }
 
     const kv = KeyValue.create(key, value, ttl);

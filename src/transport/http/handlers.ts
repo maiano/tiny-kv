@@ -1,5 +1,8 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { InvalidKeyError } from '../../application/errors/errors.js';
+import {
+  InvalidKeyError,
+  InvalidTTL,
+} from '../../application/errors/errors.js';
 import { DeleteKeyCommand } from '../../application/use-cases/delete-key.command.js';
 import { GetKeyQuery } from '../../application/use-cases/get-key.query.js';
 import { PutKeyCommand } from '../../application/use-cases/put-key.command.js';
@@ -68,7 +71,7 @@ export class KVHandlers {
     try {
       await this.putKeyCommand.execute(key, valueBytes, ttl);
     } catch (error) {
-      if (error instanceof InvalidKeyError) {
+      if (error instanceof InvalidKeyError || error instanceof InvalidTTL) {
         throw new ValidationError(error.message);
       }
       throw error;
