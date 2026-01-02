@@ -40,5 +40,14 @@ export function storageContract(factory: () => Storage) {
       await storage.put(data);
       expect(await storage.get('a')).not.toBeNull();
     });
+
+    test('expired value is not returned', async () => {
+      const now = Date.now();
+      const kv = KeyValue.create('a', encoded1, 1, now - 2000);
+      await storage.put(kv);
+
+      const result = await storage.get('a');
+      expect(result).toBeNull();
+    });
   });
 }

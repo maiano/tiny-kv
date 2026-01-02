@@ -8,7 +8,15 @@ export class InMemoryStorage implements Storage {
     this.store.set(kv.getKey(), kv);
   }
   async get(key: string): Promise<KeyValue | null> {
-    return this.store.get(key) ?? null;
+    const kv = this.store.get(key);
+    if (!kv) return null;
+
+    if (kv.isExpired(Date.now())) {
+      this.store.delete(key);
+      return null;
+    }
+
+    return kv;
   }
   async delete(key: string): Promise<void> {
     this.store.delete(key);
